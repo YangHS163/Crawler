@@ -1,6 +1,8 @@
 # Crawler
 Assignment for crawling CNN news and Tweets
 
+The Crawler.zip contains the whole project. 
+
 
 # Code
 The code of crawler for CNN News is in the yhs_homework, views.py
