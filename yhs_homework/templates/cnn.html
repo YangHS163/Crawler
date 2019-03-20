@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../../static/javascript/jquery-3.3.1.min.js"></script>
+    <title>Hanshuo Yang's homework</title>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <!-- Custom styles for this template -->
+    <!--link href="../signin.css" rel="stylesheet"-->
+    <link href="https://v3.bootcss.com/examples/signin/signin.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+        <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop='static'>
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Pending</h4>
+              </div>
+              <div class="modal-body" id="loading_text">
+                Crawling in the background, please refresh it manually in a few minutes
+              </div>
+            </div>
+          </div>
+        </div>
+       <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Hanshuo Yang's homework</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">CNN</a></li>
+                        <li><a href="{% url 'tw' %}">Twitter</a></li>
+                    </ul>
+                </div>
+                <div style="float: right; margin-top: 10px; ">
+                    <button type="button" class="btn btn-primary" id="latest">get latest</button>
+                </div>
+            </div>
+        </nav>
+        <h3>Crawling time:<span id="mytime"></span></h3>
+        <table class="table table-hovered" style="background: white" id="mytable">
+
+        </table>
+    </div> <!-- /container -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.ajax({
+                type: "POST",
+                url: "{% url 'get_execl' %}",
+                data: {filename:"cnn_search.xls"},
+                dataType: "json",
+                success: function(data){
+                    if (data.success == 1) {
+                        var tablehtml = "";
+                        var mytime = data.time;
+                        jQuery('#mytime').html(mytime);
+                        tablehtml += '<thead><th>#</th><th>heading</th></thead>'
+                        var execlData = data.execlData;
+                        for (var r in execlData){
+                            tablehtml += '<tr><th>' + execlData[r]['no'] +
+                                '</th><th><a href="http://' + execlData[r]['href'] + '">' +
+                                execlData[r]['heading']
+                                + '</a></th></tr>'
+                        }
+                        jQuery('#mytable').html(tablehtml);
+                    }
+                }
+            })
+
+            $("#latest").click(function(){
+                $('#loading').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_cnn' %}",
+                    timeout : 0,
+                    data: null,
+                    dataType: "json",
+                    success: function(data){
+                        if (data.success == 0) {
+                            var html = 'Crawling in the background, please refresh it manually in a few minutes'
+                            jQuery('#loading_text').html(html);
+                        }
+                        if (data.success == 1) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'get_execl' %}",
+                                data: {filename:"cnn_search.xls"},
+                                dataType: "json",
+                                success: function(data){
+                                    if (data.success == 1) {
+                                        var tablehtml = "";
+                                        var mytime = data.time;
+                                        jQuery('#mytime').html(mytime);
+                                        tablehtml += '<thead><th>#</th><th>heading</th></thead>'
+                                        var execlData = data.execlData;
+                                        for (var r in execlData){
+                                            tablehtml += '<tr><th>' + execlData[r]['no'] +
+                                                '</th><th><a href="http://' + execlData[r]['href'] + '">' +
+                                                execlData[r]['heading']
+                                                + '</a></th></tr>'
+                                        }
+                                        jQuery('#mytable').html(tablehtml);
+                                    }
+                                }
+                            })
+                            $('#loading').modal('hide');
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+  </body>
+</html>

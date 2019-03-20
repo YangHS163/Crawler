@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../../static/javascript/jquery-3.3.1.min.js"></script>
+    <title>Hanshuo Yang's homework</title>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+    <!-- Custom styles for this template -->
+    <!--link href="../signin.css" rel="stylesheet"-->
+    <link href="https://v3.bootcss.com/examples/signin/signin.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+       <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Hanshuo Yang's homework</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'cnn' %}">CNN</a></li>
+                        <li  class="active"><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+                <div style="float: right; margin-top: 10px; ">
+                    <button type="button" class="btn btn-primary" id="latest">get latest</button>
+                </div>
+            </div>
+        </nav>
+
+    </div> <!-- /container -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#latest").click(function(){
+                alert("ok2")
+            })
+        })
+    </script>
+  </body>
+</html>
