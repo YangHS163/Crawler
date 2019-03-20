@@ -36,7 +36,7 @@ class BeautifulPicture():
 
 
         index = 0;
-
+        #Extracting 10 News from page one
         for item_in_one in page_one:
            item1 = item_in_one.a
            index += 1
@@ -46,6 +46,7 @@ class BeautifulPicture():
         driver.find_element_by_class_name('pagination-arrow-right').click()
         self.scroll_down(driver=driver, times=1)
         page_two = BeautifulSoup(driver.page_source, 'html.parser').find_all('h3', class_='cnn-search__result-headline')
+        #Extracting 10 News from page two
         for item_in_two in page_two:
            item2 = item_in_two.a
            index += 1
@@ -56,6 +57,7 @@ class BeautifulPicture():
         driver.find_element_by_class_name('pagination-arrow-right').click()
         self.scroll_down(driver=driver, times=1)
         page_three = BeautifulSoup(driver.page_source, 'html.parser').find_all('h3', class_='cnn-search__result-headline')
+        #Extracting 10 News from page three
         for item_in_three in page_three:
             item3 = item_in_three.a
             index += 1
