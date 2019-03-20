@@ -68,7 +68,7 @@ class BeautifulPicture():
         print("The number of Extracted News", len(page_one)+len(page_two)+len(page_three))   #Check Total Number
         #file_names = self.get_files(self.folder_path)  #获取文件家中的所有文件名，类型是list
         mytime = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-        df.to_excel('cnn_search.xls')
+        df.to_excel('cnn_search.xls')  #Throwing it into excel
 
 
     def scroll_down(self, driver, times):
