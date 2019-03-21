@@ -82,7 +82,7 @@ class BeautifulPicture():
 
 
     def scroll_down(self, driver, times):
-        print('ok3')
+        #print('ok3')
         for i in range(times):
             print("Page ", str(i + 1)," Starting")
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")  #执行JavaScript实现网页下拉倒底部
