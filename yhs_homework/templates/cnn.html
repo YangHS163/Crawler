@@ -21,7 +21,7 @@
                 <h4 class="modal-title" id="myModalLabel">Pending</h4>
               </div>
               <div class="modal-body" id="loading_text">
-                Crawling in the background, please refresh it manually in a few minutes
+
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
                         var execlData = data.execlData;
                         for (var r in execlData){
                             tablehtml += '<tr><th>' + execlData[r]['no'] +
-                                '</th><th><a href="http://' + execlData[r]['href'] + '">' +
+                                '</th><th><a href="https://' + execlData[r]['href'] + '">' +
                                 execlData[r]['heading']
                                 + '</a></th></tr>'
                         }
@@ -81,35 +81,11 @@
                     data: null,
                     dataType: "json",
                     success: function(data){
-                        if (data.success == 0) {
-                            var html = 'Crawling in the background, please refresh it manually in a few minutes'
-                            jQuery('#loading_text').html(html);
-                        }
-                        if (data.success == 1) {
-                            $.ajax({
-                                type: "POST",
-                                url: "{% url 'get_execl' %}",
-                                data: {filename:"cnn_search.xls"},
-                                dataType: "json",
-                                success: function(data){
-                                    if (data.success == 1) {
-                                        var tablehtml = "";
-                                        var mytime = data.time;
-                                        jQuery('#mytime').html(mytime);
-                                        tablehtml += '<thead><th>#</th><th>heading</th></thead>'
-                                        var execlData = data.execlData;
-                                        for (var r in execlData){
-                                            tablehtml += '<tr><th>' + execlData[r]['no'] +
-                                                '</th><th><a href="http://' + execlData[r]['href'] + '">' +
-                                                execlData[r]['heading']
-                                                + '</a></th></tr>'
-                                        }
-                                        jQuery('#mytable').html(tablehtml);
-                                    }
-                                }
-                            })
-                            $('#loading').modal('hide');
-                        }
+                        var html;
+                        if (data.success == 1) html = 'Crawling in the background, it may need about 3-5 minutes, please refresh it manually in a few minutes';
+                        else if (data.success == -1) html = 'Already Crawling, please wait and refresh it manually in a few minutes';
+                        else html = 'Other error, please try again';
+                        jQuery('#loading_text').html(html);
                     }
                 })
             })
