@@ -1,7 +1,7 @@
 # Crawler
 Assignment for crawling CNN news and Tweets
 
-The Crawler.zip contains the whole project. 
+The Crawler.zip contains the whole project. It needs django framework and linux environment.
 
 
 # Code
