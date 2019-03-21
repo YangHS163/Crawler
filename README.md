@@ -5,7 +5,7 @@ The Crawler.zip contains the whole project.
 
 
 # Code
-The code of crawler for CNN News is in the yhs_homework, views.py
+The code of crawler for CNN News is in the yhs_homework, Sel.py
 
 The code of html for displaying CNN News and Tweet is in the templates
 
