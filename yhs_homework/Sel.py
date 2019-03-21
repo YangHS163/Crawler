@@ -14,25 +14,26 @@ class BeautifulPicture():
         #self.folder_path = 'D:\CNN_NEWs'
 
     def get_pic(self):
-        print('开始网页get请求')
+        print('Starting')
 
         driver = webdriver.PhantomJS()
-        print('ok1')
+        #print('ok1')
         df = pd.DataFrame(columns=('index', 'href', 'heading', 'time'))
         mytime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         df.loc[1, 'time'] = mytime
         driver.get(self.web_url)
-        print('ok2')
+        #print('ok2')
         self.scroll_down(driver=driver, times=1)  #执行网页下拉到底部操作
-        print('开始获取所有h3标签')
+        print('Gathering all h3 Tag')
         page_one = BeautifulSoup(driver.page_source, 'html.parser').find_all('h3', class_='cnn-search__result-headline')  #获取网页中的搜索结果的所有h3标签
 
 
         index = 0;
-
+        # Extracting the CNN News in page one
         for item_in_one in page_one:
            item1 = item_in_one.a
            index += 1
+           # Put into execl
            df.loc[index, 'index'] = index
            df.loc[index, 'href'] = item1['href'][2:]
            df.loc[index, 'heading'] = item1.contents[0]
@@ -41,24 +42,28 @@ class BeautifulPicture():
 
         #driver.switch_to_frame(1)
         #print(driver.find_element_by_class_name('icon icon--arrow-right'))
-        driver.find_element_by_class_name('pagination-arrow-right').click()
+        driver.find_element_by_class_name('pagination-arrow-right').click()  #Next page
         self.scroll_down(driver=driver, times=1)
         page_two = BeautifulSoup(driver.page_source, 'html.parser').find_all('h3', class_='cnn-search__result-headline')
+        # Extracting the CNN News in page two
         for item_in_two in page_two:
            item2 = item_in_two.a
            index += 1
+           # Put into execl
            df.loc[index, 'index'] = index
            df.loc[index, 'href'] = item2['href'][2:]
            df.loc[index, 'heading'] = item2.contents[0]
            # print(item2['href'])
            # print(item2.contents)
 
-        driver.find_element_by_class_name('pagination-arrow-right').click()
+        driver.find_element_by_class_name('pagination-arrow-right').click()  #Next page
         self.scroll_down(driver=driver, times=1)
         page_three = BeautifulSoup(driver.page_source, 'html.parser').find_all('h3', class_='cnn-search__result-headline')
+        # Extracting the CNN News in page three
         for item_in_three in page_three:
             item3 = item_in_three.a
             index += 1
+            # Put into execl
             df.loc[index, 'index'] = index
             df.loc[index, 'href'] = item3['href'][2:]
             df.loc[index, 'heading'] = item3.contents[0]
@@ -75,31 +80,6 @@ class BeautifulPicture():
 
         df.to_excel('/py/back/yhs_homework/cnn_search.xls')
 
-
-    def save_img(self, url, file_name): ##保存图片
-        #print('开始请求图片地址，过程会有点长...')
-        img = self.request(url)
-        print('开始保存图片')
-        f = open(file_name, 'ab')
-        f.write(img.content)
-        print(file_name,'图片保存成功！')
-        f.close()
-
-    def request(self, url):  #返回网页的response
-        r = requests.get(url)  # 像目标url地址发送get请求，返回一个response对象。有没有headers参数都可以。
-        return r
-
-    def mkdir(self, path):  ##这个函数创建文件夹
-        path = path.strip()
-        isExists = os.path.exists(path)
-        if not isExists:
-            print('创建名字叫做', path, '的文件夹')
-            os.makedirs(path)
-            print('创建成功！')
-            return True
-        else:
-            print(path, '文件夹已经存在了，不再创建')
-            return False
 
     def scroll_down(self, driver, times):
         print('ok3')
